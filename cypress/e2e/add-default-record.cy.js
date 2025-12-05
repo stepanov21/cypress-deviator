@@ -31,6 +31,7 @@ describe("I-Deviator Login Test", () => {
     cy.get('input[name="ships_head_gyro"]').type("12345.6789");
     cy.get('input[name="ships_head_magnetic"]').type("12345.6789");
     cy.get('input[name="bearing_gyro"]').type("287");
+    cy.get('input[name="magnetic_bearing"]').type("287");
 
     handleLicenseBasedFields();
     handleManualBasedFields('default');
