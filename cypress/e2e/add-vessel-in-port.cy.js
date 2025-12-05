@@ -1,39 +1,29 @@
+import { handleManualBasedFields } from "./support/manualUtils";
+
 describe("I-Deviator Login Test", () => {
   it("should login with email and password", () => {
     // Visit the login page
-    cy.visit("https://dev.ideviator.com/login");
-
-    cy.contains("Login to I-Deviator").should("be.visible");
-
-    // Find and fill the email field
-    cy.get('input[placeholder="Enter your email address"]')
-      .should("be.visible")
-      .type("ihor.s@seaharmony.uk");
-
-    // Find and fill the password field
-    cy.get('input[placeholder="Enter your password"]')
-      .should("be.visible")
-      .type("MR8BBwke4H");
 
     // Optional: Submit the form (uncomment if needed)
     // cy.get('button[type="submit"]').click()
 
     // Verify the fields are filled
-    cy.get('input[placeholder="Enter your email address"]').should(
-      "have.value",
-      "ihor.s@seaharmony.uk"
-    );
-    cy.get('input[placeholder="Enter your password"]').should(
-      "have.value",
-      "MR8BBwke4H"
-    );
+    // cy.get('input[placeholder="Enter your email address"]').should(
+    //   "have.value",
+    //   "ihor.s@seaharmony.uk"
+    // );
+    // cy.get('input[placeholder="Enter your password"]').should(
+    //   "have.value",
+    //   "MR8BBwke4H"
+    // );
 
-    cy.get("button").contains("Log In").should("be.visible");
-    cy.get("button").contains("Log In").click({});
+    // cy.get("button").contains("Log In").should("be.visible");
+    // cy.get("button").contains("Log In").click({});
+    cy.visit("https://dev.ideviator.com/logbook");
 
     cy.contains("Compass Error Log Book").should("be.visible").click();
 
-    cy.wait(2000);
+    cy.wait(4000);
 
     cy.get("body").then(($body) => {
       if ($body.find(".BackupPopup__closeButton").length > 0) {
@@ -74,7 +64,12 @@ describe("I-Deviator Login Test", () => {
     cy.get('input[id="react-select-3-input"]').focus().clear().type("Ber");
     cy.contains("Abercastle").click();
 
-    cy.get('.RadioButton_default:has(input[name="port_gyro_type"])').first().click();
+    cy.get('.RadioButton_default:has(input[name="port_gyro_type"])')
+      .eq(2)
+      .click();
+
+    handleManualBasedFields("vessel-in-port");
+
     cy.get(".LogBookRecordRow__dateButton").first().click();
     // Select tomorrow in the first calendar
     // Get tomorrow's date and click on it
@@ -88,14 +83,18 @@ describe("I-Deviator Login Test", () => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     const tomorrowDay = tomorrow.getDate();
-    cy.get(`button[name="day"]`).contains(new RegExp(`^${tomorrowDay.toString()}$`)).click();
+    cy.get(`button[name="day"]`)
+      .contains(new RegExp(`^${tomorrowDay.toString()}$`))
+      .click();
 
     // Select day after tomorrow in the third calendar
     cy.get(".LogBookRecordRow__dateButton").eq(2).click();
     const dayAfterTomorrow = new Date();
     dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
     const dayAfterTomorrowDay = dayAfterTomorrow.getDate();
-    cy.get(`button[name="day"]`).contains(new RegExp(`^${dayAfterTomorrowDay.toString()}$`)).click();
+    cy.get(`button[name="day"]`)
+      .contains(new RegExp(`^${dayAfterTomorrowDay.toString()}$`))
+      .click();
 
     cy.get('select[name="observer"]').select("Chief Officer 2");
 

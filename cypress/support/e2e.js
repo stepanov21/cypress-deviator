@@ -14,4 +14,25 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import "./commands";
+
+before(() => {
+  // Получаем роль пользователя из переменной окружения или используем 'manager' по умолчанию
+  const userRole = Cypress.env('USER_ROLE') || 'manager';
+  
+  cy.fixture('users').then((users) => {
+    const user = users[userRole];
+    
+    // Переопределяем данные из переменных окружения, если они переданы
+    const email = Cypress.env('TEST_EMAIL') || user.username;
+    const password = Cypress.env('TEST_PASSWORD') || user.password;
+    
+    cy.login(email, password);
+  });
+  
+
+});
+
+beforeEach(() => {
+  // Инъекция CSS для водного знака
+});
